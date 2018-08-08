@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7EC0DECB-3B30-4B20-B7A3-C1CE99AF2C85}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Launcher</RootNamespace>
+    <AssemblyName>Launcher</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Launcher.ico</ApplicationIcon>
+    <StartupObject>Launcher.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cyclic\Redundancy\Check\CRC.cs" />
+    <Compile Include="Exile\Common.cs" />
+    <Compile Include="Exile\Computer.cs" />
+    <Compile Include="Exile\FileChecker.cs" />
+    <Compile Include="Exile\FileDownloader.cs" />
+    <Compile Include="Exile\Globals.cs" />
+    <Compile Include="Exile\ListDownloader.cs" />
+    <Compile Include="Exile\ListProcessor.cs" />
+    <Compile Include="Exile\Networking.cs" />
+    <Compile Include="Exile\Starter.cs" />
+    <Compile Include="Exile\Texts.cs" />
+    <Compile Include="IniParser\Exceptions\ParsingException.cs" />
+    <Compile Include="IniParser\FileIniDataParser.cs" />
+    <Compile Include="IniParser\Helpers\Assert.cs" />
+    <Compile Include="IniParser\Model\Configuration\ConcatenateDuplicatedKeysIniParserConfiguration.cs" />
+    <Compile Include="IniParser\Model\Configuration\DefaultIniParserConfiguration.cs" />
+    <Compile Include="IniParser\Model\Configuration\IniParserConfiguration.cs" />
+    <Compile Include="IniParser\Model\Formatting\DefaultIniDataFormatter.cs" />
+    <Compile Include="IniParser\Model\Formatting\IIniDataFormatter.cs" />
+    <Compile Include="IniParser\Model\IniData.cs" />
+    <Compile Include="IniParser\Model\IniDataCaseInsensitive.cs" />
+    <Compile Include="IniParser\Model\KeyData.cs" />
+    <Compile Include="IniParser\Model\KeyDataCollection.cs" />
+    <Compile Include="IniParser\Model\SectionData.cs" />
+    <Compile Include="IniParser\Model\SectionDataCollection.cs" />
+    <Compile Include="IniParser\Parser\ConcatenateDuplicatedKeysIniDataParser.cs" />
+    <Compile Include="IniParser\Parser\IniDataParser.cs" />
+    <Compile Include="IniParser\StreamIniDataParser.cs" />
+    <Compile Include="IniParser\StringIniParser.cs" />
+    <Compile Include="Opcoes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Opcoes.Designer.cs">
+      <DependentUpon>Opcoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="pForm.Designer.cs">
+      <DependentUpon>pForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="ProgressBarEx\ProgressBarEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <DependentUpon>Settings.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Opcoes.resx">
+      <DependentUpon>Opcoes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pForm.resx">
+      <DependentUpon>pForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
