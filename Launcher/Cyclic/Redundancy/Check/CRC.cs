@@ -1,131 +1,111 @@
-﻿using System;
+﻿// Decompiled with JetBrains decompiler
+// Type: Cyclic.Redundancy.Check.CRC
+// Assembly: Launcher, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// MVID: D4AA755B-F045-4A12-838C-6A7934E8D46E
+// Assembly location: D:\NDev\NNTeam\nDev\launcher\Net 4.0\Launcher.exe
+
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
 namespace Cyclic.Redundancy.Check
 {
-	public sealed class CRC : HashAlgorithm
-	{
-		public CRC() : this(3988292384u, uint.MaxValue)
-		{
-		}
+    public sealed class CRC : HashAlgorithm
+    {
+        public const uint DefaultPolynomial = 3988292384;
+        public const uint DefaultSeed = 4294967295;
+        private static uint[] defaultTable;
+        private readonly uint seed;
+        private readonly uint[] table;
+        private uint hash;
 
-		public CRC(uint polynomial, uint seed)
-		{
-			this.table = CRC.InitializeTable(polynomial);
-			this.hash = seed;
-			this.seed = seed;
-		}
+        public CRC()
+          : this(3988292384U, uint.MaxValue)
+        {
+        }
 
-		public override void Initialize()
-		{
-			this.hash = this.seed;
-		}
+        public CRC(uint polynomial, uint seed)
+        {
+            this.table = CRC.InitializeTable(polynomial);
+            this.seed = this.hash = seed;
+        }
 
-		protected override void HashCore(byte[] buffer, int start, int length)
-		{
-			this.hash = CRC.CalculateHash(this.table, this.hash, buffer, start, length);
-		}
+        public override void Initialize()
+        {
+            this.hash = this.seed;
+        }
 
-		protected override byte[] HashFinal()
-		{
-			byte[] array = CRC.UInt32ToBigEndianBytes(~this.hash);
-			this.HashValue = array;
-			return array;
-		}
+        protected override void HashCore(byte[] buffer, int start, int length)
+        {
+            this.hash = CRC.CalculateHash(this.table, this.hash, (IList<byte>)buffer, start, length);
+        }
 
-		public override int HashSize
-		{
-			get
-			{
-				return 32;
-			}
-		}
+        protected override byte[] HashFinal()
+        {
+            byte[] bigEndianBytes = CRC.UInt32ToBigEndianBytes(~this.hash);
+            this.HashValue = bigEndianBytes;
+            return bigEndianBytes;
+        }
 
-		public static uint Compute(byte[] buffer)
-		{
-			return CRC.Compute(uint.MaxValue, buffer);
-		}
+        public override int HashSize
+        {
+            get
+            {
+                return 32;
+            }
+        }
 
-		public static uint Compute(uint seed, byte[] buffer)
-		{
-			return CRC.Compute(3988292384u, seed, buffer);
-		}
+        public static uint Compute(byte[] buffer)
+        {
+            return CRC.Compute(uint.MaxValue, buffer);
+        }
 
-		public static uint Compute(uint polynomial, uint seed, byte[] buffer)
-		{
-			return ~CRC.CalculateHash(CRC.InitializeTable(polynomial), seed, buffer, 0, buffer.Length);
-		}
+        public static uint Compute(uint seed, byte[] buffer)
+        {
+            return CRC.Compute(3988292384U, seed, buffer);
+        }
 
-		private static uint[] InitializeTable(uint polynomial)
-		{
-			bool flag = polynomial == 3988292384u && CRC.defaultTable != null;
-			uint[] result;
-			if (flag)
-			{
-				result = CRC.defaultTable;
-			}
-			else
-			{
-				uint[] array = new uint[256];
-				for (int i = 0; i < 256; i++)
-				{
-					uint num = (uint)i;
-					for (int j = 0; j < 8; j++)
-					{
-						bool flag2 = (num & 1u) == 1u;
-						if (flag2)
-						{
-							num = (num >> 1 ^ polynomial);
-						}
-						else
-						{
-							num >>= 1;
-						}
-					}
-					array[i] = num;
-				}
-				bool flag3 = polynomial == 3988292384u;
-				if (flag3)
-				{
-					CRC.defaultTable = array;
-				}
-				result = array;
-			}
-			return result;
-		}
+        public static uint Compute(uint polynomial, uint seed, byte[] buffer)
+        {
+            return ~CRC.CalculateHash(CRC.InitializeTable(polynomial), seed, (IList<byte>)buffer, 0, buffer.Length);
+        }
 
-		private static uint CalculateHash(uint[] table, uint seed, IList<byte> buffer, int start, int size)
-		{
-			uint num = seed;
-			for (int i = start; i < size - start; i++)
-			{
-				num = (num >> 8 ^ table[(int)((uint)buffer[i] ^ (num & 255u))]);
-			}
-			return num;
-		}
+        private static uint[] InitializeTable(uint polynomial)
+        {
+            if ((int)polynomial == -306674912 && defaultTable != null)
+                return CRC.defaultTable;
+            uint[] numArray = new uint[256];
+            for (int index1 = 0; index1 < 256; ++index1)
+            {
+                uint num = (uint)index1;
+                for (int index2 = 0; index2 < 8; ++index2)
+                {
+                    if (((int)num & 1) == 1)
+                        num = num >> 1 ^ polynomial;
+                    else
+                        num >>= 1;
+                }
+                numArray[index1] = num;
+            }
+            if ((int)polynomial == -306674912)
+                defaultTable = numArray;
+            return numArray;
+        }
 
-		private static byte[] UInt32ToBigEndianBytes(uint uint32)
-		{
-			byte[] bytes = BitConverter.GetBytes(uint32);
-			bool isLittleEndian = BitConverter.IsLittleEndian;
-			if (isLittleEndian)
-			{
-				Array.Reverse(bytes);
-			}
-			return bytes;
-		}
+        private static uint CalculateHash(uint[] table, uint seed, IList<byte> buffer, int start, int size)
+        {
+            uint num = seed;
+            for (int index = start; index < size - start; ++index)
+                num = num >> 8 ^ table[(int)buffer[index] ^ (int)num & (int)byte.MaxValue];
+            return num;
+        }
 
-		public const uint DefaultPolynomial = 3988292384u;
-
-		public const uint DefaultSeed = 4294967295u;
-
-		private static uint[] defaultTable;
-
-		private readonly uint seed;
-
-		private readonly uint[] table;
-
-		private uint hash;
-	}
+        private static byte[] UInt32ToBigEndianBytes(uint uint32)
+        {
+            byte[] bytes = BitConverter.GetBytes(uint32);
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(bytes);
+            return bytes;
+        }
+    }
 }

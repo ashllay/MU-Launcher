@@ -1,8 +1,8 @@
 ﻿// Decompiled with JetBrains decompiler
 // Type: IniParser.Model.SectionDataCollection
 // Assembly: Launcher, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 22173523-8172-4BD6-ADA2-E262638E8664
-// Assembly location: D:\dev\launcher\Client\Launcher.exe
+// MVID: D4AA755B-F045-4A12-838C-6A7934E8D46E
+// Assembly location: D:\NDev\NNTeam\nDev\launcher\Net 4.0\Launcher.exe
 
 using System;
 using System.Collections;

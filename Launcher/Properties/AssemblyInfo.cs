@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: CompilationRelaxations(8)]
